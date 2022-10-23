@@ -76,3 +76,10 @@
   --bs-btn-disabled-bg: transparent;
   --bs-gradient: none;
 }
+.form-group{
+    margin-bottom: 5px;
+}
+
+.error-msg{
+    color: darkred;
+}
