@@ -1,11 +1,10 @@
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="author" content="Ogrebatel">
     <meta name="generator" content="Hugo 0.104.2">
     <title>Fixed top navbar example · Bootstrap v5.2</title>
 
@@ -16,40 +15,57 @@
     <link href="/static/css/style.css" rel="stylesheet">
 
 </head>
-<body>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+<body class="bg-mycolor">
+
+<nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
+        <a class="navbar-brand" href="#">Any Questions?</a>
+        <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn my-btn" type="submit">New_quest!</button>
+
+
+        <ul class="navbar-nav me-auto mb-0 mb-md-0">
+            <li class="nav-item">
+                <a class="nav-link" href="">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">register</a>
+            </li>
+
+        </ul>
+
     </div>
+
+
 </nav>
 
-<main class="container">
-    <h1>New Questions</h1>
-    <div class="row">
-        <div class="col-8">col</div>
-        <div class="col-4">sidebar</div>
 
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+            </div>
+            <div class="col-4">
+                <div class="col">
+                    <div class="col">
+                        <div>
+                            <h2>Most popular questions:</h2>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <h2>most active users:</h2>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <h2>most popular tags:</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
