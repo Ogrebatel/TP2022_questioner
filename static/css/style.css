@@ -66,6 +66,10 @@
 }
 
 .my-btn {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+
+
   --bs-btn-color: #eaeef2;
   --bs-btn-border-color: #eaeef2;
   --bs-btn-hover-color: #21252a;
