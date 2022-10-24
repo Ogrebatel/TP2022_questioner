@@ -1,10 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Ogrebatel">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>Fixed top navbar example · Bootstrap v5.2</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbar-fixed/">
+
+
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
 </head>
-<body>
+
+
+<body class="bg-mycolor">
+
+<nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Any Questions?</a>
+        <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+        <form action="ask.html">
+            <button class="btn my-btn" type="submit">New_quest!</button>
+        </form>
+
+        <ul class="navbar-nav me-auto mb-0 mb-md-0">
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="signup.html">register</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+</nav>
+
+
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h1>Question 1</h1>
+                <div class="question">
+                    <div class="row">
+                        <ul class="list-group list-group-horizontal">
+                            <li class="my-list-group-item">
+                                <div class="avatar">
+                                    <img src="../static/img/1.png" alt=""/>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
+                                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
+                                </div>
+                            </li>
+
+                            <li class="my-list-group-item">
+                                <div class="row">
+                                    <a class="question-title" href="question.html">Question 1</a>
+                                </div>
+                                <div class="row">
+                                    <p class="text-start question-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto
+                                        exercitationem iste mollitia numquam odit porro praesentium quo recusandae,
+                                        suscipit!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea,
+                                        expedita
+                                        hic magnam officia qui quod sed soluta suscipit vitae.
+                                    </p>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col">
+                                        <a href="/public/question.html#Answers"> answers (3)</a>
+                                    </div>
+
+                                    <div class="col">
+                                        tags:
+                                        <a href="">Lorem</a>
+                                        <a href="">ipsum.</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                        <div class="col-md">
+
+                        </div>
+                    </div>
+                </div>
+                <h2 id="Answers">Answers</h2>
+                <div>
+                    <label for="inputAnswer" class="col-sm-2 col-form-label"></label>
+                    <textarea type="text" class="form-control" id="inputAnswer" rows="10"
+                              placeholder="Write down your answer here!" style="margin-bottom: 10px"></textarea>
+                </div>
+                <div class="answer">
+                    <div class="row">
+                        <ul class="list-group list-group-horizontal">
+                            <li class="my-list-group-item">
+                                <div class="avatar">
+                                    <img src="../static/img/2.png" alt=""/>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
+                                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
+                                </div>
+                            </li>
+
+                            <li class="my-list-group-item">
+
+                                <div class="row">
+                                    <p class="text-start question-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto
+                                        exercitationem iste mollitia numquam odit porro praesentium quo recusandae,
+                                        suscipit!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea,
+                                        expedita
+                                        hic magnam officia qui quod sed soluta suscipit vitae.
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer0">
+                                        <label class="form-check-label" for="CorrectAnswer0">
+                                            Answer is Correct!
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="answer">
+                    <div class="row">
+                        <ul class="list-group list-group-horizontal">
+                            <li class="my-list-group-item">
+                                <div class="avatar">
+                                    <img src="../static/img/1.png" alt=""/>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
+                                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
+                                </div>
+                            </li>
+
+                            <li class="my-list-group-item">
+
+                                <div class="row">
+                                    <p class="text-start question-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto
+                                        exercitationem iste mollitia numquam odit porro praesentium quo recusandae,
+                                        suscipit!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea,
+                                        expedita
+                                        hic magnam officia qui quod sed soluta suscipit vitae.
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer1">
+                                        <label class="form-check-label" for="CorrectAnswer1">
+                                            Answer is Correct!
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-4">
+                <div class="col">
+                    <div class="col">
+                        <div>
+                            <h2>Most popular questions:</h2>
+                        </div>
+
+                        <div class="col">
+                            <div>
+                                <h2>most active users:</h2>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div>
+                                <h2>most popular tags:</h2>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 
 </body>
 </html>

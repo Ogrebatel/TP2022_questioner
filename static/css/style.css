@@ -14,6 +14,14 @@
     background-color: #ecf0f3;
 }
 
+.answer {
+    margin-bottom: 20px;
+    border: 2px solid #afa7e8;
+    border-radius: 6px;
+    padding: 20px;
+    background-color: #cbd9f1;
+}
+
 .popular_question_title {
     text-decoration: none;
     font-size: 20px;
