@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+<h1>Search by {{ tag }}</h1>
 
 {% for question in objList %}
     {% include 'items/questionItem.html' %}

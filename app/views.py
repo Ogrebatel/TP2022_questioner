@@ -49,5 +49,5 @@ def tags(request, tag):
     paginator = Paginator(selection, 5)
     pageNumber = request.GET.get('page')
     curPage = paginator.get_page(pageNumber)
-    context = {'objList': curPage, 'paginator': paginator}
+    context = {'objList': curPage, 'paginator': paginator, 'tag': tag}
     return render(request, 'tags.html', context=context)
