@@ -13,9 +13,9 @@
               placeholder="Write down your answer here!" style="margin-bottom: 10px"></textarea>
 </div>
 
-{% include 'items/answerItem.html' %}
-{% include 'items/answerItem.html' %}
-{% include 'items/answerItem.html' %}
+{% for answer in objList %}
+    {% include 'items/answerItem.html' %}
+{% endfor %}
 
 {% include 'inc/paginator.html' %}
 

@@ -1,10 +1,7 @@
-
 {% extends 'inc/base.html' %}
 {% load static %}
 {% block content %}
 
-
-<h1>New Questions</h1>
 
 {% for question in objList %}
     {% include 'items/questionItem.html' %}
@@ -12,5 +9,5 @@
 
 {% include 'inc/paginator.html' %}
 
-{% endblock %}
 
+{% endblock %}
