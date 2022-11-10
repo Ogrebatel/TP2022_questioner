@@ -1,4 +1,7 @@
 <!doctype html>
+
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -11,8 +14,8 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbar-fixed/">
 
 
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 </head>
 
@@ -21,7 +24,7 @@
 
 <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Any Questions?</a>
+        <a class="navbar-brand" href={% url 'index' %}>Any Questions?</a>
         <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
         <form action="ask.html">
             <button class="btn my-btn" type="submit">New_quest!</button>
@@ -37,7 +40,7 @@
             </li>
             <li class="nav-item">
                 <div class="head_avatar">
-                    <img src="/static/img/1.png" alt="">
+                    <img src="{% static 'img/1.png' %}" alt="">
                 </div>
             </li>
         </ul>
@@ -59,7 +62,7 @@
                         <ul class="list-group list-group-horizontal">
                             <li class="my-list-group-item">
                                 <div class="avatar">
-                                    <img src="../static/img/1.png" alt=""/>
+                                    <img src="{% static 'img/1.png' %}" alt=""/>
                                 </div>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-primary btn-light">like</button>
@@ -107,7 +110,7 @@
                         <ul class="list-group list-group-horizontal">
                             <li class="my-list-group-item">
                                 <div class="avatar">
-                                    <img src="../static/img/2.png" alt=""/>
+                                    <img src="{% static 'img/2.png' %}" alt=""/>
                                 </div>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-primary btn-light">like</button>
@@ -155,7 +158,7 @@
                         <ul class="list-group list-group-horizontal">
                             <li class="my-list-group-item">
                                 <div class="avatar">
-                                    <img src="../static/img/3.png" alt=""/>
+                                    <img src="{% static 'img/3.png' %}" alt=""/>
                                 </div>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-primary btn-light">like</button>
