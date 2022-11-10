@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="question">
+    <div class="row">
+        <ul class="list-group list-group-horizontal">
+            <li class="my-list-group-item">
+                <div class="avatar">
+                    <img src="{% static 'img/1.png' %}" alt=""/>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
+                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
+                </div>
+            </li>
+
+            <li class="my-list-group-item">
+                <div class="row">
+                    <a class="question-title" href="{% url 'question' id=question.id %}">{{ question.title }}</a>
+                </div>
+                <div class="row">
+                    <p class="text-start question-text">
+                        {{ question.text }}
+                    </p>
+                </div>
+                <div class="row">
+
+                    <div class="col">
+                        <a href=""> answers ({{ question.answersNumber }})</a>
+                    </div>
+
+                    <div class="col">
+                        tags:
+                        {% for tag in question.tags %}
+                        <a href='#'>{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="col-md">
+
+        </div>
+    </div>
+</div>

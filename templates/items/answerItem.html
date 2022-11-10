@@ -1,0 +1,38 @@
+{% load static %}
+
+<div class="answer">
+    <div class="row">
+        <ul class="list-group list-group-horizontal">
+            <li class="my-list-group-item">
+                <div class="avatar">
+                    <img src="{% static 'img/1.png' %}" alt=""/>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
+                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
+                </div>
+            </li>
+
+            <li class="my-list-group-item">
+
+                <div class="row">
+                    <p class="text-start question-text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto
+                        exercitationem iste mollitia numquam odit porro praesentium quo recusandae,
+                        suscipit!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ea,
+                        expedita
+                        hic magnam officia qui quod sed soluta suscipit vitae.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer1">
+                        <label class="form-check-label" for="CorrectAnswer1">
+                            Answer is Correct!
+                        </label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
