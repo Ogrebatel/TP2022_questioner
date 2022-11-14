@@ -5,12 +5,9 @@
         <ul class="list-group list-group-horizontal">
             <li class="my-list-group-item">
                 <div class="avatar">
-                    <img src="{% static 'img/1.png' %}" alt=""/>
+                    <img src="{{answer.user.avatar.url}}" alt=""/>
                 </div>
-                <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary btn-light">like</button>
-                    <button type="button" class="btn btn-outline-danger btn-light">dislike</button>
-                </div>
+                {% include 'inc/rating.html' %}
             </li>
 
             <li class="my-list-group-item">

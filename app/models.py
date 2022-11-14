@@ -1,30 +1,44 @@
 from django.db import models
+from django.contrib.auth.models import User
+import datetime
 
-QUESTIONS = [
-    {
-        'id': question_id,
-        'title': f'Question #{question_id}',
-        'text': f'Text of question #{question_id}',
-        'answersNumber': question_id * question_id,
-        'tags': [f'tag{i}' for i in range(question_id + 1)]
-    } for question_id in range(30)
-]
+from django.utils import timezone
 
 
-ANSWERS = [
-    {
-        'question_id': question_id,
-        'answers': [
-            {
-                'answer_id': answer_id,
-                'text': f'answer with number {answer_id} to the question {question_id}',
-            } for answer_id in range (question_id)
-        ]
-    } for question_id in range(30)
-]
+class Profile(User):
+    avatar = models.ImageField(default='1.png')
 
-TAGS = [
+class Tag(models.Model):
+    name = models.CharField(max_length=20, primary_key=True)
+    def __str__(self):
+        return f'tag: {self.name}'
+
+class Like(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='like')
 
 
+class Question(models.Model):
+    question_id = models.AutoField(primary_key=True)
+    datetime = models.DateTimeField(default=timezone.now)
+    title = models.CharField(max_length=50)
+    text = models.TextField()
+    answers_number = models.IntegerField(default=0)
+    tags = models.ManyToManyField(Tag, related_name='questions', related_query_name='tags')
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='questions')
 
-]
+    def __str__(self):
+        return f'Question: {self.title}'
+
+
+class Answer(models.Model):
+    answer_id = models.AutoField(primary_key=True)
+    text = models.TextField()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='answers')
+
+
+
+
+
+
+
