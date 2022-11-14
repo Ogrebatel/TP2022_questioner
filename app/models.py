@@ -8,6 +8,7 @@ from django.utils import timezone
 class Profile(User):
     avatar = models.ImageField(default='1.png')
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
     def __str__(self):
@@ -35,6 +36,9 @@ class Answer(models.Model):
     text = models.TextField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='answers')
+
+    def __str__(self):
+        return f'Answer {self.answer_id}'
 
 
 

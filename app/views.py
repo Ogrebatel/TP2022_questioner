@@ -6,25 +6,11 @@ from . import models
 # Create your views here.
 
 @require_GET
-# def index(request):
-#     paginator = Paginator(models.QUESTIONS, 5)
-#     pageNumber = request.GET.get('page')
-#     curPage = paginator.get_page(pageNumber)
-#     context = {'objList': curPage, 'isAuth': True, 'paginator': paginator}
-#     return render(request, 'index.html', context=context)
-
-# quest_objs = models.Question.objects.filter(tags__name='kernel')
-# self.stdout.write("It's now %s" % str(quest_objs[0]))
-
-# qustion_objs = models.Question.objects.order_by('-datetime')
-# self.stdout.write("It's now %s" % str(qustion_objs))
-
 def index(request):
     questions = models.Question.objects.order_by('-datetime')
     paginator = Paginator(questions, 5)
     pageNumber = request.GET.get('page')
     curPage = paginator.get_page(pageNumber)
-    print(questions[0].user.avatar.url)
     context = {'objList': curPage, 'isAuth': True, 'paginator': paginator}
     return render(request, 'index.html', context=context)
 
