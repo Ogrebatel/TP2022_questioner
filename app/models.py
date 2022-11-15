@@ -11,11 +11,9 @@ class Profile(User):
 
 class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
+
     def __str__(self):
         return f'tag: {self.name}'
-
-class Like(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='like')
 
 
 class Question(models.Model):
@@ -41,8 +39,7 @@ class Answer(models.Model):
         return f'Answer {self.answer_id}'
 
 
-
-
-
-
-
+class Like(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='likes')
+    toAnswer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes', null=True)
+    toQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes', null=True)

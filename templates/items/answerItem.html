@@ -7,7 +7,22 @@
                 <div class="avatar">
                     <img src="{{answer.user.avatar.url}}" alt=""/>
                 </div>
-                {% include 'inc/rating.html' %}
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/like.png' %}"></button>
+
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/dislike.png' %}"></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="badge bg-secondary">{{answer.likes.count}}</div>
+                    </div>
+                    <div class="col"></div>
+                </div>
             </li>
 
             <li class="my-list-group-item">

@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.db.models import Count
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET
 from . import models
 # Create your views here.
+
 
 @require_GET
 def index(request):
@@ -17,8 +18,8 @@ def index(request):
 @require_GET
 def question(request, id: int):
 
-    question = models.Question.objects.get(question_id=id)
-    answers = question.answers.all()
+    question = get_object_or_404(models.Question, question_id=id)
+    answers = question.answers.annotate(like_count=Count('likes')).order_by('-like_count')
     paginator = Paginator(answers, 3)
 
     answersPageNumber = request.GET.get('page')
@@ -46,7 +47,7 @@ def ask(request):
 
 
 
-
+@require_GET
 def tags(request, tag):
     questions = models.Question.objects.filter(tags__name=tag).order_by('-datetime')
 
@@ -55,3 +56,12 @@ def tags(request, tag):
     curPage = paginator.get_page(pageNumber)
     context = {'objList': curPage, 'paginator': paginator, 'tag': tag}
     return render(request, 'tags.html', context=context)
+
+@require_GET
+def best(request):
+    questions = models.Question.objects.annotate(like_count=Count('likes')).order_by('-like_count')
+    paginator = Paginator(questions, 5)
+    pageNumber = request.GET.get('page')
+    curPage = paginator.get_page(pageNumber)
+    context = {'objList': curPage, 'isAuth': True, 'paginator': paginator}
+    return render(request, 'index.html', context=context)

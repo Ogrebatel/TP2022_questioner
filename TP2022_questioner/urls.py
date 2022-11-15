@@ -23,6 +23,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('best', views.best, name='best'),
     path('question/<int:id>', views.question, name='question'),
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
