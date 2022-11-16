@@ -82,3 +82,4 @@ GRANT ALL PRIVILEGES ON DATABASE app TO appuser;
 
 Использование СУДБ - 2:
 - MySQL или PostgreSQL - 2.✅
+- 
