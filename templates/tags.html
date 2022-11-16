@@ -1,0 +1,14 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Search by tag: {{ tag }}</h1>
+
+{% for question in objList %}
+    {% include 'items/questionItem.html' %}
+{% endfor %}
+
+{% include 'inc/paginator.html' %}
+
+
+{% endblock %}

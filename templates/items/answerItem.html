@@ -1,0 +1,46 @@
+{% load static %}
+
+<div class="answer">
+    <div class="row">
+        <ul class="list-group list-group-horizontal">
+            <li class="my-list-group-item">
+                <div class="avatar">
+                    <img src="{{answer.user.avatar.url}}" alt=""/>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/like.png' %}"></button>
+
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/dislike.png' %}"></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="badge bg-secondary">{{answer.likes.count}}</div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </li>
+
+            <li class="my-list-group-item">
+
+                <div class="row">
+                    <p class="text-start question-text">
+                        {{ answer.text }}
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer1">
+                        <label class="form-check-label" for="CorrectAnswer1">
+                            Answer is Correct!
+                        </label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

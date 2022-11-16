@@ -1,0 +1,59 @@
+{% load static %}
+
+<div class="question">
+    <div class="row">
+        <ul class="list-group list-group-horizontal">
+            <li class="my-list-group-item">
+                <div class="row-cols-1">
+                    <div class="avatar">
+                        <img src="{{question.user.avatar.url}}" alt=""/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/like.png' %}"></button>
+
+                        <button type="button" class="btn btn-light"><img height=30px width=30px
+                                                                         src="{% static 'img/dislike.png' %}"></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="badge bg-secondary">{{question.likes.count}}</div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </li>
+
+            <li class="my-list-group-item">
+                <div class="row">
+                    <a class="question-title" href="{% url 'question' id=question.question_id %}">{{question.title}}</a>
+                </div>
+                <div class="row">
+                    <p class="text-start question-text text-justify">
+                        {{ question.text }}
+                    </p>
+                </div>
+                <div class="row">
+
+                    <div class="col">
+                        <a href="{% url 'question' id=question.question_id %}"> answers ({{ question.answers.count }})</a>
+                    </div>
+
+                    <div class="col">
+                        tags:
+                        {% for tag in question.tags.all %}
+                        <a href='/tags/{{ tag.name }}'>{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="col-md">
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>{{ question.title }}</h1>
+
+{% include 'items/questionItem.html' %}
+
+<h2 id="Answers">Answers</h2>
+<div>
+    <label for="inputAnswer" class="col-sm-2 col-form-label"></label>
+    <textarea type="text" class="form-control" id="inputAnswer" rows="10"
+              placeholder="Write down your answer here!" style="margin-bottom: 10px"></textarea>
+</div>
+
+{% for answer in objList %}
+    {% include 'items/answerItem.html' %}
+{% endfor %}
+
+{% include 'inc/paginator.html' %}
+
+{% endblock %}
