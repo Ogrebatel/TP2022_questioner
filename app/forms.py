@@ -69,3 +69,9 @@ class RegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         self.cleaned_data.pop('password_check')
         return Profile.objects.create_profile(**self.cleaned_data)
+
+
+class AskForm(forms.ModelForm):
+    title = forms.CharField()
+    question = forms.Textarea()
+

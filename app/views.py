@@ -1,8 +1,10 @@
 from django.contrib import auth
 from django.contrib.auth import logout
+
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import HttpResponse
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_GET
@@ -13,6 +15,10 @@ from .internals import make_pagination, gen_base_context
 
 @require_GET
 def index(request):
+    if request.user.is_authenticated:
+        print("YESSSSSSSSSSSSS")
+    else:
+        print("NOOOOOOOOOOOOO")
     context = gen_base_context(request)
     questions = models.Question.objects.get_newest()
     context.update({'isAuth': True})
@@ -42,6 +48,7 @@ def login(request):
         if user_form.is_valid():
             user = auth.authenticate(request=request, **user_form.cleaned_data)
             if user:
+                auth.login(request, user)
                 return redirect(reverse("index"))
             else:
                 user_form.add_error(field=None, error="Wrong username or password:")
@@ -50,7 +57,7 @@ def login(request):
 
 def logout_view(request):
     logout(request)
-    # return redirect('index')
+    return redirect('index')
 
 def signup(request):
     context = gen_base_context(request)
