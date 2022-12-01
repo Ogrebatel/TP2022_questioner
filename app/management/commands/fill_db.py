@@ -19,12 +19,17 @@ class Command(BaseCommand):
 
     def gen_profiles(self, ratio):
         fake = Faker()
-        models.Profile.objects.bulk_create(
-            [models.Profile(user=models.User.objects.create_user(username=fake.name(),
-                                 email=fake.email(),
-                                 password=fake.word())
-                            ) for i in range(ratio)]
-        )
+        # models.Profile.objects.bulk_create(
+        #     [models.Profile(username=fake.name(),
+        #                          email=fake.email(),
+        #                          password=fake.word()
+        #                     ) for i in range(ratio)]
+        # )
+        for i in range(ratio):
+            models.Profile.objects.create(username=fake.name(),
+                           email=fake.email(),
+                           password=fake.word()
+                           ).save()
     def gen_random_text(self):
         rand_text = str()
         for j in range(random.randint(0, 100)):

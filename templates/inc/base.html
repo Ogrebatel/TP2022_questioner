@@ -30,10 +30,10 @@
             <button class="btn my-btn" type="submit">New_quest!</button>
         </form>
 
-        {% if isAuth %}
-            {% include 'inc/loggedNavbar.html' %}
+        {% if profile.is_authenticated %}
+        {% include 'inc/loggedNavbar.html' %}
         {% else %}
-            {% include 'inc/unloggedNavbar.html' %}
+        {% include 'inc/unloggedNavbar.html' %}
         {% endif %}
 
     </div>
@@ -56,15 +56,32 @@
                     <div class="col">
                         <div>
                             <h2>Most popular questions:</h2>
+                            {% for best_question in best_questions %}
+                            <p>
+                                <a href='/question/{{ best_question.question_id }}'>{{ best_question.title }}</a>
+                            </p>
+                            {% endfor %}
                         </div>
                         <div class="col">
                             <div>
                                 <h2>most active users:</h2>
+                                {% for active_user in active_users %}
+
+                                <p>{{ active_user.username }}</p>
+
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col">
                             <div>
                                 <h2>most popular tags:</h2>
+
+                                {% for best_tag in best_tags %}
+
+                                <a href='/tags/{{ best_tag.name }}'>{{ best_tag.name }}</a>
+
+                                {% endfor %}
+
                             </div>
                         </div>
                     </div>
@@ -73,6 +90,10 @@
         </div>
     </div>
 </main>
+
+<footer>
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">© 2022 by Ogrebatel</div>
+</footer>
 
 
 </body>

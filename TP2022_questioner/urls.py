@@ -23,11 +23,12 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('best', views.best, name='best'),
+    path('best/', views.best, name='best'),
     path('question/<int:id>', views.question, name='question'),
-    path('signup', views.signup, name='signup'),
-    path('login', views.login, name='login'),
-    path('ask', views.ask, name='ask'),
-    path('settings', views.settings, name='settings'),
-    path('tags/<tag>', views.tags, name='tags')
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('ask/', views.ask, name='ask'),
+    path('settings/', views.settings, name='settings'),
+    path('tags/<tag>', views.tags, name='tags'),
+    path('logout/', views.logout_view, name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
