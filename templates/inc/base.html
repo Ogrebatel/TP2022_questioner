@@ -29,8 +29,8 @@
         <form action="{% url 'ask' %}">
             <button class="btn my-btn" type="submit">New_quest!</button>
         </form>
-
-        {% if profile.is_authenticated %}
+S
+        {% if user.is_authenticated %}
         {% include 'inc/loggedNavbar.html' %}
         {% else %}
         {% include 'inc/unloggedNavbar.html' %}
