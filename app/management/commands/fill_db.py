@@ -50,9 +50,7 @@ class Command(BaseCommand):
 
         questions = models.Question.objects.all()
         for question in questions:
-            question.tags.set(random.choices(tag_objs, k=3))  # я понимаю, что теги могут повториться, но
-                                                                  # ManyToMany отработает корректно, и повторяющихся
-                                                                  # тэгов не будет.
+            question.tags.set(random.choices(tag_objs, k=3))
             question.save()
 
     def gen_answers(self, ratio):
@@ -83,7 +81,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         ratio = kwargs['ratio']
 
-        self.gen_tags(ratio)
+        self.gen_tags(ratio * 10)
         self.gen_profiles(ratio)
         self.gen_questions(ratio * 10)
         self.gen_answers(ratio * 100)

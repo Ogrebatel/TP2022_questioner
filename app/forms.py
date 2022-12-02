@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
 
-from app.models import Profile
+from app.models import Profile, Question
 
 
 class LoginForm(forms.Form):
@@ -44,17 +44,9 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
-        if avatar:
-            w, h = get_image_dimensions(avatar)
 
-            max_width = max_height = 500
-            if w > max_width or h > max_height:
-                raise ValidationError(
-                    u'Please use an image that is '
-                    '%s x %s pixels or smaller.' % (max_width, max_height))
-
-            if len(avatar) > (2000 * 1024):
-                raise ValidationError(u'Avatar file size may not exceed 2M.')
+        if len(avatar) > (2000 * 1024):
+            raise ValidationError(u'Avatar file size may not exceed 2M.')
 
         return avatar
 
@@ -71,7 +63,20 @@ class RegistrationForm(forms.ModelForm):
         return Profile.objects.create_profile(**self.cleaned_data)
 
 
-class AskForm(forms.ModelForm):
-    title = forms.CharField()
-    question = forms.Textarea()
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ('title', 'text', 'tags')
 
+    def save(self, commit=True):
+        print("hello!")
+        tags = self.cleaned_data.pop('tags')
+        self.cleaned_data['user'] = self.user
+        question = Question.objects.create(**self.cleaned_data)
+        if question:
+            question.tags.set(tags)
+        return question
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(QuestionForm, self).__init__(*args, **kwargs)

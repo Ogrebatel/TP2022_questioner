@@ -8,15 +8,15 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_GET
+from django.contrib.auth.decorators import login_required
 from . import models
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, QuestionForm
 from .internals import make_pagination, gen_base_context
 
 
-@require_GET
 def index(request):
     if request.user.is_authenticated:
-        print("YESSSSSSSSSSSSS")
+        print(type(request.user))
     else:
         print("NOOOOOOOOOOOOO")
     context = gen_base_context(request)
@@ -26,7 +26,6 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-@require_GET
 def question(request, id: int):
     context = gen_base_context(request)
     question = get_object_or_404(models.Question, question_id=id)
@@ -55,6 +54,8 @@ def login(request):
 
     return render(request, 'login.html', context=context)
 
+
+@login_required(redirect_field_name='login')
 def logout_view(request):
     logout(request)
     return redirect('index')
@@ -78,16 +79,29 @@ def signup(request):
     return render(request, 'signup.html', context=context)
 
 
-@require_GET
+@login_required(login_url='login')
 def settings(request):
     context = gen_base_context(request)
-    context.update({'isAuth': True})
     return render(request, 'settings.html', context=context)
 
 
-@require_GET
+@login_required(login_url='login')
 def ask(request):
     context = gen_base_context(request)
+
+    if request.method == 'GET':
+        question_form = QuestionForm(request.user)
+        context['form'] = question_form
+    if request.method == 'POST':
+        question_form = QuestionForm(request.user, request.POST)
+        context['form'] = question_form
+        if question_form.is_valid():
+            question = question_form.save()
+            if question:
+                return redirect("/question/" + str(question.question_id))
+            else:
+                question_form.add_error(field=None, error="User with the same username exists!")
+
     return render(request, 'ask.html', context=context)
 
 
