@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_GET
 from django.contrib.auth.decorators import login_required
 from . import models
-from .forms import LoginForm, RegistrationForm, QuestionForm
+from .forms import LoginForm, RegistrationForm, QuestionForm, AnswerForm
 from .internals import make_pagination, gen_base_context
 
 
@@ -32,6 +32,20 @@ def question(request, id: int):
     answers = question.answers.get_sorted_questions()
     context.update({'question': question})
     context.update(make_pagination(request, answers))
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            answer_form = AnswerForm(request.user, question)
+            context['form'] = answer_form
+        if request.method == 'POST':
+            answer_form = AnswerForm(request.user, question, request.POST)
+            context['form'] = answer_form
+            if answer_form.is_valid():
+                answer = answer_form.save()
+                if answer:
+                    return redirect("/question/" + str(question.question_id))
+                else:
+                    answer_form.add_error(field=None, error="internal error")
+
     return render(request, 'question.html', context=context)
 
 

@@ -21,78 +21,79 @@
 
 
 <body class="bg-mycolor">
+<div class="wrapper">
+    <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Any Questions?</a>
+            <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+            <form action="{% url 'ask' %}">
+                <button class="btn my-btn" type="submit">New_quest!</button>
+            </form>
 
-<nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">Any Questions?</a>
-        <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
-        <form action="{% url 'ask' %}">
-            <button class="btn my-btn" type="submit">New_quest!</button>
-        </form>
-S
-        {% if user.is_authenticated %}
-        {% include 'inc/loggedNavbar.html' %}
-        {% else %}
-        {% include 'inc/unloggedNavbar.html' %}
-        {% endif %}
+            {% if user.is_authenticated %}
+            {% include 'inc/loggedNavbar.html' %}
+            {% else %}
+            {% include 'inc/unloggedNavbar.html' %}
+            {% endif %}
 
-    </div>
-
-
-</nav>
+        </div>
 
 
-<main class="flex-shrink-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-8">
+    </nav>
 
-                {% block content %}
-                {% endblock %}
 
-            </div>
-            <div class="col-4">
-                <div class="col">
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+
+                    {% block content %}
+                    {% endblock %}
+
+                </div>
+                <div class="col-4">
                     <div class="col">
-                        <div>
-                            <h2>Most popular questions:</h2>
-                            {% for best_question in best_questions %}
-                            <p>
-                                <a href='/question/{{ best_question.question_id }}'>{{ best_question.title }}</a>
-                            </p>
-                            {% endfor %}
-                        </div>
                         <div class="col">
                             <div>
-                                <h2>most active users:</h2>
-                                {% for active_user in active_users %}
-
-                                <p>{{ active_user.username }}</p>
-
+                                <h2>Most popular questions:</h2>
+                                {% for best_question in best_questions %}
+                                <p>
+                                    <a href='/question/{{ best_question.question_id }}'>{{ best_question.title }}</a>
+                                </p>
                                 {% endfor %}
                             </div>
-                        </div>
-                        <div class="col">
-                            <div>
-                                <h2>most popular tags:</h2>
+                            <div class="col">
+                                <div>
+                                    <h2>most active users:</h2>
+                                    {% for active_user in active_users %}
 
-                                {% for best_tag in best_tags %}
+                                    <p>{{ active_user.username }}</p>
 
-                                <a href='/tags/{{ best_tag.name }}'>{{ best_tag.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <h2>most popular tags:</h2>
 
-                                {% endfor %}
+                                    {% for best_tag in best_tags %}
 
+                                    <a href='/tags/{{ best_tag.name }}'>{{ best_tag.name }}</a>
+
+                                    {% endfor %}
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
-
+    </main>
+    <footer>
+        <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">© 2022 by Ogrebatel</div>
+    </footer>
+</div>
 </body>
-<footer>
-    <div class="text-center p-3 fixed-bottom" style="background-color: rgba(0, 0, 0, 0.2);">© 2022 by Ogrebatel</div>
-</footer>
+
 </html>

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
 
-from app.models import Profile, Question
+from app.models import Profile, Question, Answer
 
 
 class LoginForm(forms.Form):
@@ -28,7 +28,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('username', 'email', 'password', 'password_check', 'first_name', 'last_name', 'avatar')
+        fields = ['username', 'email', 'password', 'password_check', 'first_name', 'last_name', 'avatar']
 
     def clean_password_check(self):
         password_1 = self.cleaned_data['password']
@@ -66,7 +66,7 @@ class RegistrationForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('title', 'text', 'tags')
+        fields = ['title', 'text', 'tags']
 
     def save(self, commit=True):
         print("hello!")
@@ -80,3 +80,19 @@ class QuestionForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(QuestionForm, self).__init__(*args, **kwargs)
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['text']
+
+    def save(self, commit=True):
+        self.cleaned_data['question'] = self.question
+        self.cleaned_data['user'] = self.user
+        return Answer.objects.create(**self.cleaned_data)
+
+    def __init__(self, user, question, *args, **kwargs):
+        self.user = user
+        self.question = question
+        super(AnswerForm, self).__init__(*args, **kwargs)
