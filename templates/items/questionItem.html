@@ -11,17 +11,27 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <button type="button" class="btn btn-light"><img height=30px width=30px
-                                                                         src="{% static 'img/like.png' %}"></button>
+                        <button type="button"
+                                data-object_id="{{ question.question_id }}"
+                                data-object_type="Question"
+                                class="btn btn-light like_btn">
+                            <img height=30px width=30px
+                                 src="{% static 'img/like.png' %}">
+                        </button>
 
-                        <button type="button" class="btn btn-light"><img height=30px width=30px
-                                                                         src="{% static 'img/dislike.png' %}"></button>
+                        <button type="button"
+                                data-object_id="{{ question.question_id }}"
+                                data-object_type="Question"
+                                class="btn btn-light dislike_btn">
+                            <img height=30px width=30px
+                                 src="{% static 'img/dislike.png' %}">
+                        </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <div class="badge bg-secondary">{{question.likes.count}}</div>
+                        <div class="badge bg-secondary" id="likes_count">{{ question.total_like_count }}</div>
                     </div>
                     <div class="col"></div>
                 </div>

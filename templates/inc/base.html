@@ -13,7 +13,6 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbar-fixed/">
 
-
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
@@ -94,6 +93,11 @@
         <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">© 2022 by Ogrebatel</div>
     </footer>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    var csrftoken = '{{ csrf_token }}';
+</script>
 </body>
 
 </html>

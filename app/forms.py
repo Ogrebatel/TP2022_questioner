@@ -63,13 +63,66 @@ class RegistrationForm(forms.ModelForm):
         return Profile.objects.create_profile(**self.cleaned_data)
 
 
+
+class SettingsForm(forms.ModelForm):
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput, required=False)
+    password_check = forms.CharField(min_length=8, widget=forms.PasswordInput, required=False)
+    class Meta:
+        model = Profile
+        fields = ['username', 'email', 'password', 'password_check', 'avatar']
+
+    def clean_password_check(self):
+        password_1 = self.cleaned_data['password']
+        password_2 = self.cleaned_data['password_check']
+
+        if password_1 != password_2:
+            raise ValidationError('Passwords are not the same')
+
+        if " " in password_1:
+            raise ValidationError('do not use space symbol words in password.')
+
+        return password_2
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+        if avatar:
+            if len(avatar) > (2000 * 1024):
+                raise ValidationError(u'Avatar file size may not exceed 2M.')
+
+        return avatar
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        if " " in username:
+            raise ValidationError('do not use space symbol words in username.')
+
+        return username
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(SettingsForm, self).__init__(*args, **kwargs)
+        self.fields['username'].required = False
+
+
+    def save(self, commit=True):
+        if self.cleaned_data['username']:
+            self.user.username = self.cleaned_data['username']
+        if self.cleaned_data['email']:
+            self.user.email = self.cleaned_data['email']
+        if self.cleaned_data['avatar']:
+            self.user.avatar = self.cleaned_data['avatar']
+        if self.cleaned_data['password']:
+            self.user.set_password(self.cleaned_data['password'])
+        return self.user.save()
+
+
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'text', 'tags']
 
     def save(self, commit=True):
-        print("hello!")
         tags = self.cleaned_data.pop('tags')
         self.cleaned_data['user'] = self.user
         question = Question.objects.create(**self.cleaned_data)

@@ -17,19 +17,19 @@ class ProfileManager(UserManager):
             user.save()
         return user
 
-
     def get_active_users(self):
         return self.annotate(answers_count=Count('answers')).order_by('-answers_count')
-
 
 
 class Profile(AbstractUser):
     avatar = models.ImageField(default='1.png')
     objects = ProfileManager()
 
+
 class TagManager(models.Manager):
     def get_hot_tags(self):
         return self.annotate(question_count=Count('questions')).order_by('-question_count')
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
@@ -47,10 +47,10 @@ class QuestionManager(models.Manager):
         return self.filter(tags__name=tag).order_by('-datetime')
 
     def get_hot_questions(self):
-        return self.annotate(like_count=Count('likes')).order_by('-like_count')
+        return self.annotate(like_count=Count('likes') - Count('dislikes')).order_by('-like_count')
 
     def get_answers(self):
-        return self.answers.annotate(like_count=Count('likes')).order_by('-like_count')
+        return self.answers.annotate(like_count=Count('likes') - Count('dislikes')).order_by('-like_count')
 
 
 class Question(models.Model):
@@ -58,6 +58,7 @@ class Question(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=100)
     text = models.TextField()
+    total_like_count = models.IntegerField(default=0)
     answers_number = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, related_name='tags', related_query_name='questions')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='questions')
@@ -70,11 +71,13 @@ class Question(models.Model):
 
 class AnswerManager(models.Manager):
     def get_sorted_questions(self):
-        return self.annotate(like_count=Count('likes')).order_by('-like_count')
+        return self.annotate(like_count=Count('likes') - Count('dislikes')).order_by('-like_count')
+
 
 class Answer(models.Model):
     answer_id = models.AutoField(primary_key=True)
     text = models.TextField()
+    total_like_count = models.IntegerField(default=0)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='answers')
     objects = AnswerManager()
@@ -87,3 +90,9 @@ class Like(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='likes')
     toAnswer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes', null=True)
     toQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes', null=True)
+
+
+class Dislike(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='dislikes')
+    toAnswer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='dislikes', null=True)
+    toQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='dislikes', null=True)

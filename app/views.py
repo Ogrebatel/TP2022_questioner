@@ -3,22 +3,19 @@ from django.contrib.auth import logout
 
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from . import models
-from .forms import LoginForm, RegistrationForm, QuestionForm, AnswerForm
+from .forms import LoginForm, RegistrationForm, QuestionForm, AnswerForm, SettingsForm
 from .internals import make_pagination, gen_base_context
+from .models import Question, Like, Answer, Dislike
 
 
 def index(request):
-    if request.user.is_authenticated:
-        print(type(request.user))
-    else:
-        print("NOOOOOOOOOOOOO")
     context = gen_base_context(request)
     questions = models.Question.objects.get_newest()
     context.update({'isAuth': True})
@@ -49,8 +46,9 @@ def question(request, id: int):
     return render(request, 'question.html', context=context)
 
 
-
 def login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('index'))
     context = gen_base_context(request)
     if request.method == 'GET':
         user_form = LoginForm()
@@ -64,7 +62,7 @@ def login(request):
                 auth.login(request, user)
                 return redirect(reverse("index"))
             else:
-                user_form.add_error(field=None, error="Wrong username or password:")
+                user_form.add_error(field=None, error="Wrong username or password!")
 
     return render(request, 'login.html', context=context)
 
@@ -74,7 +72,10 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('index'))
     context = gen_base_context(request)
 
     if request.method == 'GET':
@@ -86,7 +87,7 @@ def signup(request):
         if user_form.is_valid():
             user = user_form.save()
             if user:
-                return redirect(reverse('index'))
+                return redirect(reverse('login'))
             else:
                 user_form.add_error(field=None, error="User with the same username exists!")
 
@@ -96,11 +97,23 @@ def signup(request):
 @login_required(login_url='login')
 def settings(request):
     context = gen_base_context(request)
+
+    if request.method == 'GET':
+        settings_form = SettingsForm(request.user)
+        context['form'] = settings_form
+
+    if request.method == 'POST':
+        settings_form = SettingsForm(request.user, request.POST, request.FILES)
+        context['form'] = settings_form
+        if settings_form.is_valid():
+            settings_form.save()
     return render(request, 'settings.html', context=context)
 
 
 @login_required(login_url='login')
 def ask(request):
+    sad = str
+
     context = gen_base_context(request)
 
     if request.method == 'GET':
@@ -135,3 +148,108 @@ def best(request):
     context.update({'isAuth': True})
     context.update(make_pagination(request, questions))
     return render(request, 'best.html', context=context)
+
+
+@require_POST
+@login_required
+def like_view(request):
+    object_id = request.POST['object_id']
+    object_type = request.POST['object_type']
+
+    if object_type == 'Question':
+        object = Question.objects.get(question_id=object_id)
+        try:
+            like = Like.objects.get(user=request.user, toQuestion=object)
+        except Like.DoesNotExist:
+            like = None
+
+        if (like):
+            like.delete()
+        else:
+            Like.objects.create(user=request.user, toQuestion=object)
+            try:
+                dislike = Dislike.objects.get(user=request.user, toQuestion=object)
+            except Dislike.DoesNotExist:
+                dislike = None
+
+            if (dislike):
+                dislike.delete()
+
+    if object_type == 'Answer':
+        object = Answer.objects.get(answer_id=object_id)
+        try:
+            like = Like.objects.get(user=request.user, toAnswer=object)
+        except Like.DoesNotExist:
+            like = None
+
+        if (like):
+            like.delete()
+        else:
+            Like.objects.create(user=request.user, toAnswer=object)
+            try:
+                dislike = Dislike.objects.get(user=request.user, toAnswer=object)
+            except Dislike.DoesNotExist:
+                dislike = None
+
+            if (dislike):
+                dislike.delete()
+
+    object.total_like_count = object.likes.count() - object.dislikes.count()
+    object.save()
+
+    return JsonResponse({
+        'status': 'ok',
+        'likes_count': object.total_like_count
+    })
+
+@require_POST
+@login_required
+def dislike_view(request):
+    object_id = request.POST['object_id']
+    object_type = request.POST['object_type']
+
+    if object_type == 'Question':
+        object = Question.objects.get(question_id=object_id)
+        try:
+            dislike = Dislike.objects.get(user=request.user, toQuestion=object)
+        except Dislike.DoesNotExist:
+            dislike = None
+
+        if (dislike):
+            dislike.delete()
+        else:
+            Dislike.objects.create(user=request.user, toQuestion=object)
+            try:
+                like = Like.objects.get(user=request.user, toQuestion=object)
+            except Like.DoesNotExist:
+                like = None
+
+            if (like):
+                like.delete()
+
+    if object_type == 'Answer':
+        object = Answer.objects.get(answer_id=object_id)
+        try:
+            dislike = Dislike.objects.get(user=request.user, toAnswer=object)
+        except Dislike.DoesNotExist:
+            dislike = None
+
+        if (dislike):
+            dislike.delete()
+        else:
+            Dislike.objects.create(user=request.user, toAnswer=object)
+            try:
+                like = Like.objects.get(user=request.user, toAnswer=object)
+            except Like.DoesNotExist:
+                like = None
+
+            if (like):
+                like.delete()
+
+    object.total_like_count = object.likes.count() - object.dislikes.count()
+    object.save()
+
+    return JsonResponse({
+        'status': 'ok',
+        'likes_count': object.total_like_count
+    })
