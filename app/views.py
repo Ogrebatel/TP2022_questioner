@@ -161,7 +161,7 @@ def best(request):
 
 
 @require_POST
-@login_required(login_url="login", redirect_field_name="continue")
+@login_required(login_url="login")
 def like_view(request):
     object_id = request.POST['object_id']
     object_type = request.POST['object_type']
@@ -213,7 +213,7 @@ def like_view(request):
     })
 
 @require_POST
-@login_required(login_url="login", redirect_field_name="continue")
+@login_required(login_url="login")
 def dislike_view(request):
     object_id = request.POST['object_id']
     object_type = request.POST['object_type']
