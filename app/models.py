@@ -80,6 +80,8 @@ class Answer(models.Model):
     total_like_count = models.IntegerField(default=0)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='answers')
+    correct = models.BooleanField(default=False)
+
     objects = AnswerManager()
 
     def __str__(self):
