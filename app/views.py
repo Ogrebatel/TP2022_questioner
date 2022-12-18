@@ -26,7 +26,7 @@ def index(request):
 def question(request, id: int):
     context = gen_base_context(request)
     question = get_object_or_404(models.Question, question_id=id)
-    answers = question.answers.get_sorted_questions()
+    answers = question.answers.get_sorted_answers()
     context.update({'question': question})
     context.update(make_pagination(request, answers))
     if request.user.is_authenticated:
@@ -39,7 +39,9 @@ def question(request, id: int):
             if answer_form.is_valid():
                 answer = answer_form.save()
                 if answer:
-                    return redirect("/question/" + str(question.question_id))
+                    answers = question.answers.get_sorted_answers()
+                    page_number = int(list(answers).index(answer) / 5) + 1
+                    return redirect("/question/" + str(question.question_id) + '?page=' + str(page_number))
                 else:
                     answer_form.add_error(field=None, error="internal error")
 
@@ -122,7 +124,6 @@ def settings(request):
 @login_required(login_url="login", redirect_field_name="continue")
 @require_http_methods(['GET', 'POST'])
 def ask(request):
-    sad = str
 
     context = gen_base_context(request)
 
@@ -270,16 +271,17 @@ def dislike_view(request):
 def correct_answer_view(request):
     question_id = request.POST['question_id']
     answer_id = request.POST['answer_id']
+    question = Question.objects.get(question_id=question_id)
+    if request.user.is_authenticated and request.user == question.user:
+        answer = Answer.objects.get(answer_id=answer_id)
 
-    answer = Answer.objects.get(answer_id=answer_id)
+        if answer.correct:
+            answer.correct = False
+        else:
+            answer.correct = True
 
-    if answer.correct:
-        answer.correct = False
-    else:
-        answer.correct = True
+        answer.save()
 
-    answer.save()
-
-    return JsonResponse({
-        'status': 'ok'
-    })
+        return JsonResponse({
+            'status': 'ok'
+        })

@@ -44,16 +44,17 @@
                 </div>
                 <div class="row">
                     <div class="form-check">
-                        {% if user.is_authenticated and user.profile == question.author %}
+                        {% if user.is_authenticated and user == question.user %}
                         <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer1"
-                               data-id="{{ answer.id }}" {% if answer.is_correct %} checked {% endif %}>
+                               data-answer_id="{{ answer.answer_id }}" data-question_id="{{ question.question_id }}"
+                               {% if answer.correct %} checked {% endif %}>
 
                         {% if not answer.correct %}
                         <label class="form-check-label" for="CorrectAnswer1">Answer is Correct!</label>
                         {% endif %}
                         {% endif %}
                         {% if answer.correct %}
-                        <label class="form-check-label" for="CorrectAnswer1">Correct!</label>
+                        <label class="form-check-label" for="CorrectAnswer1">Answer is Correct!</label>
                         {% endif %}
                     </div>
                 </div>

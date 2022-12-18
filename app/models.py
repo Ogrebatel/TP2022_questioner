@@ -70,7 +70,7 @@ class Question(models.Model):
 
 
 class AnswerManager(models.Manager):
-    def get_sorted_questions(self):
+    def get_sorted_answers(self):
         return self.annotate(like_count=Count('likes') - Count('dislikes')).order_by('-like_count')
 
 
