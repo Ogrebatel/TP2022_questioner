@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
 
-from app.models import Profile, Question, Answer
+from app.models import Profile, Question, Answer, Tag
 
 
 class LoginForm(forms.Form):
@@ -118,16 +118,24 @@ class SettingsForm(forms.ModelForm):
 
 
 class QuestionForm(forms.ModelForm):
+
+    tags = forms.CharField(required=True)
+
     class Meta:
         model = Question
-        fields = ['title', 'text', 'tags']
+        fields = ['title', 'text']
 
     def save(self, commit=True):
-        tags = self.cleaned_data.pop('tags')
+        tags = str(self.cleaned_data.pop('tags')).split()
+        tags_list = []
+        for tag in tags:
+            print(tag)
+            tags_list.append(Tag.objects.get_or_create(name=tag)[0])
+
         self.cleaned_data['user'] = self.user
         question = Question.objects.create(**self.cleaned_data)
         if question:
-            question.tags.set(tags)
+            question.tags.set(tags_list)
         return question
 
     def __init__(self, user, *args, **kwargs):

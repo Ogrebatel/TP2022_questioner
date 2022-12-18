@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
 from . import models
 from .forms import LoginForm, RegistrationForm, QuestionForm, AnswerForm, SettingsForm
@@ -46,11 +46,15 @@ def question(request, id: int):
     return render(request, 'question.html', context=context)
 
 
+@require_http_methods(['GET', 'POST'])
 def login(request):
     if request.user.is_authenticated:
-        return redirect(reverse('index'))
+        return redirect(reverse("index"))
     context = gen_base_context(request)
     if request.method == 'GET':
+        redirect_name = request.GET.get('continue', False)
+        if redirect_name:
+            auth.REDIRECT_FIELD_NAME = redirect_name
         user_form = LoginForm()
         context['form'] = user_form
     if request.method == 'POST':
@@ -60,7 +64,10 @@ def login(request):
             user = auth.authenticate(request=request, **user_form.cleaned_data)
             if user:
                 auth.login(request, user)
-                return redirect(reverse("index"))
+                if auth.REDIRECT_FIELD_NAME != 'next':
+                    return redirect(auth.REDIRECT_FIELD_NAME)
+                else:
+                    return redirect(reverse("index"))
             else:
                 user_form.add_error(field=None, error="Wrong username or password!")
 
@@ -69,6 +76,7 @@ def login(request):
 
 @login_required(redirect_field_name='login')
 def logout_view(request):
+    auth.REDIRECT_FIELD_NAME = 'index'
     logout(request)
     return redirect('index')
 
@@ -94,7 +102,8 @@ def signup(request):
     return render(request, 'signup.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url="login", redirect_field_name="continue")
+@require_http_methods(['GET', 'POST'])
 def settings(request):
     context = gen_base_context(request)
 
@@ -110,7 +119,8 @@ def settings(request):
     return render(request, 'settings.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url="login", redirect_field_name="continue")
+@require_http_methods(['GET', 'POST'])
 def ask(request):
     sad = str
 
@@ -151,7 +161,7 @@ def best(request):
 
 
 @require_POST
-@login_required
+@login_required(login_url="login", redirect_field_name="continue")
 def like_view(request):
     object_id = request.POST['object_id']
     object_type = request.POST['object_type']
@@ -203,7 +213,7 @@ def like_view(request):
     })
 
 @require_POST
-@login_required
+@login_required(login_url="login", redirect_field_name="continue")
 def dislike_view(request):
     object_id = request.POST['object_id']
     object_type = request.POST['object_type']
