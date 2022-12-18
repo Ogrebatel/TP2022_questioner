@@ -1,0 +1,20 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block content %}
+
+<h1>Settings: {{ user.username }}</h1>
+<form action="/settings/" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" label_class="form-label col-sm-2" field_class="is_valid form-field col-sm-10" %}
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <button class="btn btn-success" type="submit">Apply!</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

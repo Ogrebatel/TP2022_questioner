@@ -2,7 +2,7 @@
     padding: 80px 0 0;
 }
 
-.bg-mycolor{
+.bg-mycolor {
     background-color: #eff1f3;
 }
 
@@ -44,6 +44,7 @@
     object-fit: cover;
 }
 
+
 .head_avatar {
     width: 40px;
     height: 40px;
@@ -59,7 +60,7 @@
 }
 
 
-.question-title{
+.question-title {
     text-decoration: none;
     font-size: 20px;
     font-weight: 500;
@@ -78,20 +79,56 @@
     -moz-appearance: button;
 
 
-  --bs-btn-color: #eaeef2;
-  --bs-btn-border-color: #eaeef2;
-  --bs-btn-hover-color: #21252a;
-  --bs-btn-hover-bg: #edeff2;
-  --bs-btn-hover-border-color: #21252a;
-  --bs-btn-focus-shadow-rgb: 25, 135, 84;
-  --bs-btn-active-color: #fff;
-  --bs-btn-disabled-bg: transparent;
-  --bs-gradient: none;
+    --bs-btn-color: #eaeef2;
+    --bs-btn-border-color: #eaeef2;
+    --bs-btn-hover-color: #21252a;
+    --bs-btn-hover-bg: #edeff2;
+    --bs-btn-hover-border-color: #21252a;
+    --bs-btn-focus-shadow-rgb: 25, 135, 84;
+    --bs-btn-active-color: #fff;
+    --bs-btn-disabled-bg: transparent;
+    --bs-gradient: none;
 }
-.form-group{
+
+.form-group {
     margin-bottom: 5px;
 }
 
-.error-msg{
+.error-msg {
     color: darkred;
+}
+
+
+::after, ::before {
+    box-sizing: border-box;
+}
+
+html {
+    display: flex; /* осевое координирование блоков */
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.wrapper main {
+    flex: 1 1 auto;
+    display: block; /* обязательно нужно для IE, иначе выдаёт ошибку для блока main */
+}
+
+.footer {
+    z-index: 0;
+    margin-top: auto;
 }

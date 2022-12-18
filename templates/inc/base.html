@@ -1,0 +1,103 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Ogrebatel">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>AnyQuestions?</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbar-fixed/">
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+
+<body class="bg-mycolor">
+<div class="wrapper">
+    <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Any Questions?</a>
+            <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+            <form action="{% url 'ask' %}">
+                <button class="btn my-btn" type="submit">New_quest!</button>
+            </form>
+
+            {% if user.is_authenticated %}
+            {% include 'inc/loggedNavbar.html' %}
+            {% else %}
+            {% include 'inc/unloggedNavbar.html' %}
+            {% endif %}
+
+        </div>
+
+
+    </nav>
+
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+
+                    {% block content %}
+                    {% endblock %}
+
+                </div>
+                <div class="col-4">
+                    <div class="col">
+                        <div class="col">
+                            <div>
+                                <h2>Most popular questions:</h2>
+                                {% for best_question in best_questions %}
+                                <p>
+                                    <a href='/question/{{ best_question.question_id }}'>{{ best_question.title }}</a>
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <h2>most active users:</h2>
+                                    {% for active_user in active_users %}
+
+                                    <p>{{ active_user.username }}</p>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <h2>most popular tags:</h2>
+
+                                    {% for best_tag in best_tags %}
+
+                                    <a href='/tags/{{ best_tag.name }}'>{{ best_tag.name }}</a>
+
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">© 2022 by Ogrebatel</div>
+    </footer>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    var csrftoken = '{{ csrf_token }}';
+</script>
+</body>
+
+</html>

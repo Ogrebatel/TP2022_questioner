@@ -1,0 +1,29 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block content %}
+
+<h1>{{ question.title }}</h1>
+
+{% include 'items/questionItem.html' %}
+
+<h2 id="Answers">Answers</h2>
+{% if user.is_authenticated %}
+<form class="was-validated" action="/question/{{ question.question_id }}" method="post">
+{% csrf_token %}
+{% bootstrap_form form layout="horizontal" label_class="hidden" field_class="is_valid form-field col-sm-12" %}
+<div class="form-group row">
+    <div class="col-sm-10">
+        <button class="btn btn-success" type="submit">Answer!</button>
+    </div>
+</div>
+</form>
+{% endif %}
+
+{% for answer in objList %}
+{% include 'items/answerItem.html' %}
+{% endfor %}
+
+{% include 'inc/paginator.html' %}
+
+{% endblock %}

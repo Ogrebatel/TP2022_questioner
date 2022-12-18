@@ -1,0 +1,64 @@
+{% load static %}
+
+<div class="answer">
+    <div class="row">
+        <ul class="list-group list-group-horizontal">
+            <li class="my-list-group-item">
+                <div class="avatar">
+                    <img src="{{answer.user.avatar.url}}" alt=""/>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button"
+                                data-object_id="{{ answer.answer_id }}"
+                                data-object_type="Answer"
+                                class="btn btn-light like_btn">
+                            <img height=30px width=30px
+                                 src="{% static 'img/like.png' %}">
+                        </button>
+
+                        <button type="button"
+                                data-object_id="{{ answer.answer_id }}"
+                                data-object_type="Answer"
+                                class="btn btn-light dislike_btn">
+                            <img height=30px width=30px
+                                 src="{% static 'img/dislike.png' %}">
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="badge bg-secondary" id="likes_count">{{answer.total_like_count}}</div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </li>
+
+            <li class="my-list-group-item">
+
+                <div class="row">
+                    <p class="text-start question-text">
+                        {{ answer.text }}
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="form-check">
+                        {% if user.is_authenticated and user == question.user %}
+                        <input class="form-check-input" type="checkbox" value="" id="CorrectAnswer1"
+                               data-answer_id="{{ answer.answer_id }}" data-question_id="{{ question.question_id }}"
+                               {% if answer.correct %} checked {% endif %}>
+
+                        {% if not answer.correct %}
+                        <label class="form-check-label" for="CorrectAnswer1">Answer is Correct!</label>
+                        {% endif %}
+                        {% endif %}
+                        {% if answer.correct %}
+                        <label class="form-check-label" for="CorrectAnswer1">Answer is Correct!</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
